@@ -90,6 +90,9 @@ def name_to_attr_path(req):
                 attr_paths.add(PKG_SET + '.' + replacement)
             except KeyError:
                 pass
+    # there are multiple packages that match tensorflow
+    if req == "tensorflow":
+        return "python3Packages.tensorflow"
     # Let's hope there's only one derivation with a matching name
     assert len(attr_paths) <= 1, "{} matches more than one derivation: {}".format(req, attr_paths)
     if len(attr_paths) == 1:

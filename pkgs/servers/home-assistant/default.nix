@@ -26,24 +26,30 @@ let
       "0c3c816a028d47f659d6ff5c745cb2acf1f966da1fe5c19c77a70282b25f4c5f")
     (mkOverride "attrs" "19.1.0"
       "f0b870f674851ecbfbbbd364d6b5cbdff9dcedbc7f3f5e18a6891057f21fe399")
-    (mkOverride "bcrypt" "3.1.6"
-      "44636759d222baa62806bbceb20e96f75a015a6381690d1bc2eda91c01ec02ea")
+    (mkOverride "bcrypt" "3.1.7"
+      "0hhywhxx301cxivgxrpslrangbfpccc8y83qbwn1f57cab3nj00b")
     (mkOverride "pyjwt" "1.7.1"
       "8d59a976fb773f3e6a39c85636357c4f0e242707394cadadd9814f5cbaa20e96")
-    (mkOverride "cryptography" "2.6.1"
-      "26c821cbeb683facb966045e2064303029d572a87ee69ca5a1bf54bf55f93ca6")
-    (mkOverride "cryptography_vectors" "2.6.1" # required by cryptography==2.6.1
-      "03f38115dccb266dd96538f94067442a877932c2322661bdc5bf2502c76658af")
-    (mkOverride "python-slugify" "3.0.2"
-      "57163ffb345c7e26063435a27add1feae67fa821f1ef4b2f292c25847575d758")
-    (mkOverride "requests" "2.21.0"
-      "502a824f31acdacb3a35b6690b5fbf0bc41d63a24a45c4004352b0242707598e")
-    (mkOverride "ruamel_yaml" "0.15.94"
-      "0939bcb399ad037ef903d74ccf2f8a074f06683bc89133ad19305067d34487c8")
-    (mkOverride "voluptuous" "0.11.5"
-      "567a56286ef82a9d7ae0628c5842f65f516abcb496e74f3f59f1d7b28df314ef")
-    (mkOverride "voluptuous-serialize" "2.1.0"
-      "d30fef4f1aba251414ec0b315df81a06da7bf35201dcfb1f6db5253d738a154f")
+    (mkOverride "cryptography" "2.7"
+      "1inlnr36kl36551c9rcad99jmhk81v33by3glkadwdcgmi17fd76")
+    (mkOverride "cryptography_vectors" "2.7" # required by cryptography==2.6.1
+      "1g38zw90510azyfrj6mxbslx2gp9yrnv5dac0w2819k9ssdznbgi")
+    (mkOverride "python-slugify" "3.0.3"
+      "0rpz8i790nm22jc5rgbvsdfv3c7nnphph3b7a7i207mighi6ix59")
+    (mkOverride "requests" "2.22.0"
+      "1d5ybh11jr5sm7xp6mz8fyc7vrp4syifds91m7sj60xalal0gq0i")
+    (mkOverride "ruamel_yaml" "0.15.100"
+      "1r5j9n2jdq48z0k4bdia1f7krn8f2x3y49i9ba9iks2rg83g6hlf")
+    (mkOverride "voluptuous" "0.11.7"
+      "0mplkcpb5d8wjf8vk195fys4y6a3wbibiyf708imw33lphfk9g1a")
+    (mkOverride "voluptuous-serialize" "2.2.0"
+      "0ggiisrq7cbk307d09fdwfdcjb667jv90lx6gfwhxfpxgq66cccb")
+    (mkOverride "pytz" "2019.2"
+      "0ckb27hhjc8i8gcdvk4d9avld62b7k52yjijc60s2m3y8cpb7h16")
+    (mkOverride "importlib-metadata" "0.19"
+      "1s34z8i79a67azv4y0sgiz2p9f6arf9rsdsm4fai7988w1rxilr3")
+    (mkOverride "pyyaml" "5.1.2"
+      "1r5faspz73477hlbjgilw05xsms0glmsa371yqdd26znqsvg1b81")
 
     # used by auth.mfa_modules.totp
     (mkOverride "pyotp" "2.2.7"
@@ -59,10 +65,6 @@ let
       protobuf = super.protobuf.override {
         protobuf = protobuf3_6;
       };
-    })
-
-    (self: super: {
-      pyyaml = super.pyyaml_3;
     })
 
     # hass-frontend does not exist in python3.pkgs
@@ -96,9 +98,8 @@ let
 
   # Ensure that we are using a consistent package set
   extraBuildInputs = extraPackages py.pkgs;
-
-  # Don't forget to run parse-requirements.py after updating
-  hassVersion = "0.93.2";
+# Don't forget to run parse-requirements.py after updating
+  hassVersion = "0.98.1";
 
 in with py.pkgs; buildPythonApplication rec {
   pname = "homeassistant";
@@ -113,7 +114,7 @@ in with py.pkgs; buildPythonApplication rec {
     owner = "home-assistant";
     repo = "home-assistant";
     rev = version;
-    sha256 = "01zdg6yfj6qal8jpr9bskmq25crrvz7w3vifrfxmlqws6hv35gc8";
+    sha256 = "1s67n1n1zi2h6jm6z316nwfy3zvsclpdr5y0cd0d1qgdnfvyn7i9";
   };
 
   propagatedBuildInputs = [
@@ -122,6 +123,7 @@ in with py.pkgs; buildPythonApplication rec {
     python-slugify pytz pyyaml requests ruamel_yaml voluptuous voluptuous-serialize
     # From http, frontend and recorder components and auth.mfa_modules.totp
     sqlalchemy aiohttp-cors hass-frontend pyotp pyqrcode
+    importlib-metadata
   ] ++ componentBuildInputs ++ extraBuildInputs;
 
   checkInputs = [
